@@ -5,6 +5,7 @@ import { useState } from "react";
 
 const Index = () => {
   const [activeService, setActiveService] = useState<number | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const services = [
     {
@@ -81,7 +82,43 @@ const Index = () => {
             <a href="#testimonials" className="text-foreground/80 hover:text-accent transition-colors">Отзывы</a>
             <Button className="bg-accent hover:bg-accent/90 text-white">Связаться</Button>
           </div>
+          <button
+            className="md:hidden text-primary"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            <Icon name={mobileMenuOpen ? "X" : "Menu"} size={28} />
+          </button>
         </div>
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-background border-t border-border animate-fade-in">
+            <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
+              <a
+                href="#services"
+                className="text-foreground/80 hover:text-accent transition-colors py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Услуги
+              </a>
+              <a
+                href="#portfolio"
+                className="text-foreground/80 hover:text-accent transition-colors py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Портфолио
+              </a>
+              <a
+                href="#testimonials"
+                className="text-foreground/80 hover:text-accent transition-colors py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Отзывы
+              </a>
+              <Button className="bg-accent hover:bg-accent/90 text-white w-full" onClick={() => setMobileMenuOpen(false)}>
+                Связаться
+              </Button>
+            </div>
+          </div>
+        )}
       </nav>
 
       <section className="pt-32 pb-20 px-4">
