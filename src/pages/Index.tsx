@@ -1,11 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Icon from "@/components/ui/icon";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Index = () => {
   const [activeService, setActiveService] = useState<number | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const services = [
     {
@@ -121,8 +130,21 @@ const Index = () => {
         )}
       </nav>
 
-      <section className="pt-32 pb-20 px-4">
-        <div className="container mx-auto text-center animate-fade-in-up">
+      <section className="pt-32 pb-20 px-4 relative overflow-hidden">
+        <div 
+          className="absolute inset-0 -z-10 opacity-5"
+          style={{
+            transform: `translateY(${scrollY * 0.5}px)`,
+            backgroundImage: 'radial-gradient(circle at 20% 50%, hsl(43, 74%, 49%) 0%, transparent 50%), radial-gradient(circle at 80% 80%, hsl(43, 74%, 49%) 0%, transparent 50%)',
+          }}
+        />
+        <div 
+          className="container mx-auto text-center animate-fade-in-up"
+          style={{
+            transform: `translateY(${scrollY * 0.15}px)`,
+            opacity: Math.max(0, 1 - scrollY / 500)
+          }}
+        >
           <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-6 text-primary" style={{ fontFamily: 'Cormorant, serif' }}>
             Элегантность<br />в каждой детали
           </h1>
